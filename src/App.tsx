@@ -1,9 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { supabase } from './lib/supabase'
+import { useSync } from './hooks/useSync'
+import { ThemeContext, themes } from './theme'
+import AuthScreen from './components/AuthScreen'
 import DailyView from './components/DailyView'
 import GoalsView from './components/GoalsView'
 import StatsView from './components/StatsView'
 import NotificationsView from './components/NotificationsView'
-import { ThemeContext, themes } from './theme'
+import type { User } from '@supabase/supabase-js'
 
 type Tab = 'daily' | 'goals' | 'stats' | 'notifications'
 
@@ -21,13 +25,21 @@ const TAB_THEMES: Record<Tab, typeof themes[keyof typeof themes]> = {
   notifications: themes.notifications,
 }
 
-export default function App() {
+// App principale (utilisateur connecté)
+
+function AppContent({ user }: { user: User }) {
   const [tab, setTab] = useState<Tab>('daily')
   const [highlightedGoalId, setHighlightedGoalId] = useState<string | null>(null)
+
+  useSync(user.id)
 
   function goToGoal(goalId: string) {
     setHighlightedGoalId(goalId)
     setTab('goals')
+  }
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
   }
 
   const theme = TAB_THEMES[tab]
@@ -36,6 +48,17 @@ export default function App() {
     <ThemeContext.Provider value={theme}>
       <div className={`min-h-screen ${theme.pageBg}`}>
         <div className="max-w-2xl mx-auto px-4 py-8">
+
+          {/* Header utilisateur */}
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-xs text-gray-400 truncate max-w-[200px]">{user.email}</p>
+            <button
+              onClick={handleLogout}
+              className="text-xs text-gray-400 hover:text-red-400 transition px-2 py-1 rounded-lg hover:bg-red-50">
+              Déconnexion
+            </button>
+          </div>
+
           {/* Navigation */}
           <nav className="flex gap-1 bg-white border border-gray-100 rounded-2xl p-1 mb-8 shadow-sm">
             {TAB_LABELS.map(([key, label]) => (
@@ -58,4 +81,34 @@ export default function App() {
       </div>
     </ThemeContext.Provider>
   )
+}
+
+// Racine : gestion de la session
+
+export default function App() {
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ?? null)
+      setLoading(false)
+    })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user ?? null)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-400 text-sm">Chargement...</p>
+      </div>
+    )
+  }
+
+  return user ? <AppContent user={user} /> : <AuthScreen />
 }
