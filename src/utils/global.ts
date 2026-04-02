@@ -1,4 +1,4 @@
-import type { Goal, Habit, Milestone } from '../types'
+import type { Habit, Milestone } from '../types'
 
 // Calcule le % d'avancement depuis les milestones
 export function computeProgress(milestones: Milestone[]): number {

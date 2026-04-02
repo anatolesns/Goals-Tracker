@@ -53,7 +53,7 @@ function AllHabitsView() {
           <Tooltip
             contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', fontSize: 13 }}
             cursor={{ fill: `${t.chartPrimary}12` }}
-            formatter={(v: number) => [`${v} / ${totalHabits} habitudes`, '']}
+            formatter={(v) => [`${v ?? 0} / ${totalHabits} habitudes`, '']}
           />
           <Bar dataKey="done" radius={[4, 4, 0, 0]}>
             {data.map((entry, i) => (
