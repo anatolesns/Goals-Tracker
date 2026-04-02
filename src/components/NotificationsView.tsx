@@ -31,7 +31,12 @@ function saveConfigs(configs: ReminderConfig[]) {
 export default function NotificationsView() {
   const { habits } = useAppStore()
   const t = useTheme()
-  const [permission, setPermission] = useState(Notification.permission)
+  const notifSupported = typeof window !== 'undefined' && 'Notification' in window
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent)
+  const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches
+  const [permission, setPermission] = useState<NotificationPermission>(
+    notifSupported ? Notification.permission : 'denied'
+  )
   const [configs, setConfigs] = useState<ReminderConfig[]>(loadConfigs)
   const [saved, setSaved] = useState(false)
 
@@ -81,6 +86,32 @@ export default function NotificationsView() {
     <div className="space-y-6">
       <h2 className="text-2xl font-semibold text-gray-800">Notifications</h2>
 
+      {!notifSupported && isIOS && !isInStandaloneMode && (
+        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5 space-y-3">
+          <p className="font-medium text-blue-700">Installer l'app pour activer les rappels</p>
+          <p className="text-sm text-blue-600">
+            Sur iPhone, les notifications nécessitent d'installer l'app sur l'écran d'accueil.
+          </p>
+          <ol className="text-sm text-blue-700 space-y-1 list-decimal list-inside">
+            <li>Ouvre le site dans <strong>Safari</strong></li>
+            <li>Appuie sur le bouton partage <strong>⎙</strong></li>
+            <li>Sélectionne <strong>"Sur l'écran d'accueil"</strong></li>
+            <li>Reviens ici et les notifications seront disponibles</li>
+          </ol>
+        </div>
+      )}
+
+      {!notifSupported && !isIOS && (
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
+          <p className="font-medium text-amber-700">Notifications non supportées</p>
+          <p className="text-sm text-amber-600 mt-1">
+            Ton navigateur ne supporte pas les notifications web.
+            Essaie avec Chrome ou Firefox.
+          </p>
+        </div>
+      )}
+
+      {notifSupported && (<>
       {/* Statut de la permission */}
       <div className={`rounded-2xl p-5 border ${
         permission === 'granted'
@@ -195,6 +226,7 @@ export default function NotificationsView() {
         Les rappels fonctionnent uniquement quand l'onglet est ouvert dans le navigateur.
         Pour des rappels en arrière-plan, une PWA avec Service Worker serait nécessaire.
       </p>
+      </>)}
     </div>
   )
 }
