@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+
+/* Curseur pointer sur tous les éléments interactifs */
+button,
+select,
+[role="button"],
+label[for] {
+  cursor: pointer;
+}
+
+/* Évite le flash blanc lors des transitions de couleur :
+   on force les transitions à rester dans le même espace colorimétrique */
+* {
+  -webkit-font-smoothing: antialiased;
+}
