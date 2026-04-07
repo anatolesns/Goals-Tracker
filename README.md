@@ -6,6 +6,12 @@
 
 <em>Application de suivi d'objectifs et d'habitudes — projet personnel</em>
 
+<br/>
+
+<a href="https://goals-tracker.vercel.app">
+  <img src="https://img.shields.io/badge/🌐 Accéder à l'app-goals--tracker.vercel.app-6366f1?style=for-the-badge" alt="app link">
+</a>
+
 <!-- BADGES -->
 <img src="https://img.shields.io/badge/react-18-61DAFB?style=default&logo=react&logoColor=white" alt="react">
 <img src="https://img.shields.io/badge/typescript-5-3178C6?style=default&logo=typescript&logoColor=white" alt="typescript">
@@ -22,25 +28,50 @@
 
 ## Table des matières
 
-- [Aperçu](#aperçu)
+- [Contexte](#contexte)
+- [Accès et utilisation](#accès-et-utilisation)
 - [Fonctionnalités](#fonctionnalités)
 - [Stack technique](#stack-technique)
 - [Structure du projet](#structure-du-projet)
-- [Démarrage rapide](#démarrage-rapide)
-  - [Prérequis](#prérequis)
-  - [Installation](#installation)
-  - [Variables d'environnement](#variables-denvironnement)
-  - [Lancer en local](#lancer-en-local)
-- [Déploiement](#déploiement)
 - [Roadmap](#roadmap)
 
 ---
 
-## Aperçu
+## Contexte
 
-**Goals Tracker** est une application web full-stack permettant de suivre ses objectifs personnels à différentes échelles de temps. Elle distingue trois types d'éléments : les **tâches quotidiennes** (ponctuelles), les **habitudes récurrentes** (avec système de streaks), et les **objectifs long terme** (décomposés en étapes avec progression en pourcentage).
+**Goals Tracker** est un projet personnel développé avec deux objectifs : **apprendre TypeScript** en conditions réelles, et **répondre à un besoin concret** — l'absence d'un outil simple qui regroupe à la fois les tâches du jour, les habitudes récurrentes et les objectifs long terme dans une seule interface.
 
-Les données sont synchronisées dans le cloud via **Supabase** avec authentification par email, et l'app est déployée sur **Vercel**. Elle est installable sur smartphone en tant que PWA.
+Plutôt que d'utiliser plusieurs apps séparées (todo list, habit tracker, notion...), l'idée était de construire quelque chose de léger, rapide et adapté à mon usage quotidien. Le projet a été l'occasion de travailler avec un stack moderne (React, TypeScript, Vite, Zustand, Supabase) de bout en bout : modélisation des données, logique métier, interface, statistiques, authentification et déploiement.
+
+---
+
+## Accès et utilisation
+
+🌐 **L'app est disponible ici : [goals-tracker.vercel.app](https://goals-tracker.vercel.app)**
+
+Elle est installable sur smartphone en tant que PWA :
+- **Android** — ouvre le lien dans Chrome, puis "Ajouter à l'écran d'accueil"
+- **iPhone** — ouvre le lien dans Safari, appuie sur ⎙ puis "Sur l'écran d'accueil"
+
+### Créer un compte
+
+Rends-toi sur l'app, entre ton email et un mot de passe, puis clique sur **Créer le compte**. Tes données sont liées à ton compte et synchronisées sur tous tes appareils.
+
+### Onglet Aujourd'hui
+
+L'onglet principal regroupe les **tâches du jour** et les **habitudes**. Coche une tâche pour la marquer comme faite — elle disparaîtra automatiquement le lendemain. Pour les habitudes, cocher chaque jour incrémente ton streak 🔥. Passe la souris sur un élément (ou appuie longtemps sur mobile) pour afficher les boutons de modification et de suppression.
+
+### Onglet Objectifs
+
+Crée tes objectifs long terme et décompose-les en **étapes (milestones)**. La barre de progression se met à jour automatiquement à chaque étape cochée. Tu peux définir une date d'échéance et une description pour chaque objectif.
+
+### Onglet Stats
+
+Visualise tes données sur le temps : **heatmap** des habitudes sur 12 semaines, **graphique de complétion** sur 14 jours, tendances des streaks et progression de chaque objectif.
+
+### Onglet Rappels
+
+Active des **notifications quotidiennes** pour tes habitudes en choisissant une heure pour chacune. Les notifications fonctionnent tant que l'onglet est ouvert — ou en permanence si l'app est installée en PWA.
 
 ---
 
@@ -104,127 +135,6 @@ Les données sont synchronisées dans le cloud via **Supabase** avec authentific
         │   └── notifications.ts    # Gestion notifications et Service Worker
         ├── theme.ts                # Thèmes par onglet
         └── App.tsx                 # Composant racine + gestion session
-```
-
----
-
-## Démarrage rapide
-
-### Prérequis
-
-- **Node.js v20+**
-- **npm**
-- Un compte **Supabase** (gratuit)
-
-### Installation
-
-```sh
-# Cloner le dépôt
-git clone https://github.com/anatolesns/Goals-Tracker
-cd goals-tracker
-
-# Installer les dépendances
-npm install
-```
-
-### Variables d'environnement
-
-Crée un fichier `.env` à la racine :
-
-```env
-VITE_SUPABASE_URL=https://ton-project-id.supabase.co
-VITE_SUPABASE_ANON_KEY=ta_clé_anon_publique
-```
-
-Ces valeurs se trouvent dans Supabase → **Settings → API**.
-
-### Base de données
-
-Dans l'éditeur SQL de Supabase, exécute le script suivant pour créer les tables :
-
-```sql
-create extension if not exists "uuid-ossp";
-
-create table goals (
-  id uuid primary key default uuid_generate_v4(),
-  user_id uuid references auth.users(id) on delete cascade not null,
-  title text not null,
-  description text,
-  status text default 'not_started',
-  progress integer default 0,
-  milestones jsonb default '[]',
-  start_date date default current_date,
-  due_date date,
-  category text,
-  color text,
-  created_at timestamptz default now()
-);
-
-create table habits (
-  id uuid primary key default uuid_generate_v4(),
-  user_id uuid references auth.users(id) on delete cascade not null,
-  title text not null,
-  frequency text default 'daily',
-  completed_dates text[] default '{}',
-  streak integer default 0,
-  best_streak integer default 0,
-  color text,
-  created_at timestamptz default now()
-);
-
-create table daily_tasks (
-  id uuid primary key default uuid_generate_v4(),
-  user_id uuid references auth.users(id) on delete cascade not null,
-  title text not null,
-  done boolean default false,
-  date date default current_date,
-  created_at timestamptz default now()
-);
-
-alter table goals enable row level security;
-alter table habits enable row level security;
-alter table daily_tasks enable row level security;
-
-create policy "goals_own" on goals for all using (auth.uid() = user_id);
-create policy "habits_own" on habits for all using (auth.uid() = user_id);
-create policy "tasks_own" on daily_tasks for all using (auth.uid() = user_id);
-```
-
-### Lancer en local
-
-```sh
-npm run dev
-```
-
-L'app est disponible sur `http://localhost:5173`.
-
----
-
-## Déploiement
-
-L'app est déployée sur **Vercel** avec redéploiement automatique à chaque push sur `main`.
-
-```sh
-# Build de production
-npm run build
-
-# Push → déclenche automatiquement le redéploiement Vercel
-git add .
-git commit -m "description"
-git push
-```
-
-Pense à ajouter `VITE_SUPABASE_URL` et `VITE_SUPABASE_ANON_KEY` dans **Vercel → Settings → Environment Variables**.
-
-Le fichier `vercel.json` à la racine configure le routing pour la SPA :
-
-```json
-{
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
-}
 ```
 
 ---
