@@ -8,7 +8,7 @@
 
 <br/>
 
-<a href="https://goals-tracker.vercel.app">
+<a href="https://goals-tracker-anatolesns.vercel.app">
   <img src="https://img.shields.io/badge/🌐 Accéder à l'app-goals--tracker.vercel.app-6366f1?style=for-the-badge" alt="app link">
 </a>
 
