@@ -1,164 +1,142 @@
-<div id="top">
+<div id="top" align="center">
 
-<div align="center">
+# Goals Tracker
 
-# GOALS TRACKER
+Suivi des tâches du jour, des habitudes et des objectifs long terme, dans une seule interface.
 
-<em>Application de suivi d'objectifs et d'habitudes — projet personnel</em>
+[![Ouvrir l'app](https://img.shields.io/badge/Ouvrir_l'app-goals--tracker--anatolesns.vercel.app-8b5cf6?style=for-the-badge)](https://goals-tracker-anatolesns.vercel.app)
 
-<br/>
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white)
 
-<a href="https://goals-tracker-anatolesns.vercel.app">
-  <img src="https://img.shields.io/badge/🌐 Accéder à l'app-goals--tracker.vercel.app-6366f1?style=for-the-badge" alt="app link">
-</a>
-
-<!-- BADGES -->
-<img src="https://img.shields.io/badge/react-18-61DAFB?style=default&logo=react&logoColor=white" alt="react">
-<img src="https://img.shields.io/badge/typescript-5-3178C6?style=default&logo=typescript&logoColor=white" alt="typescript">
-<img src="https://img.shields.io/badge/vite-8-646CFF?style=default&logo=vite&logoColor=white" alt="vite">
-<img src="https://img.shields.io/badge/supabase-cloud-3ECF8E?style=default&logo=supabase&logoColor=white" alt="supabase">
-<img src="https://img.shields.io/badge/tailwindcss-4-06B6D4?style=default&logo=tailwindcss&logoColor=white" alt="tailwind">
-<img src="https://img.shields.io/badge/deployed-vercel-000000?style=default&logo=vercel&logoColor=white" alt="vercel">
+<img src="docs/screenshot.png" alt="Onglet Aujourd'hui : tâches du jour et habitudes quotidiennes, hebdomadaires et mensuelles" width="640">
 
 </div>
 
-> Application web progressive (PWA) pour gérer ses objectifs quotidiens, habitudes récurrentes et objectifs long terme, avec statistiques d'avancement et système de rappels.
+## Sommaire
 
----
-
-## Table des matières
-
-- [Contexte](#contexte)
-- [Accès et utilisation](#accès-et-utilisation)
+- [Pourquoi ce projet](#pourquoi-ce-projet)
 - [Fonctionnalités](#fonctionnalités)
+- [Utilisation](#utilisation)
+- [Lancer le projet en local](#lancer-le-projet-en-local)
 - [Stack technique](#stack-technique)
 - [Structure du projet](#structure-du-projet)
 - [Roadmap](#roadmap)
 
----
+## Pourquoi ce projet
 
-## Contexte
+Projet personnel né de deux envies : apprendre TypeScript sur un cas réel, et remplacer les
+trois applications que j'utilisais séparément (todo list, habit tracker, notes d'objectifs) par
+un outil léger qui réunit tout.
 
-**Goals Tracker** est un projet personnel développé avec deux objectifs : **apprendre TypeScript** en conditions réelles, et **répondre à un besoin concret** — l'absence d'un outil simple qui regroupe à la fois les tâches du jour, les habitudes récurrentes et les objectifs long terme dans une seule interface.
-
-Plutôt que d'utiliser plusieurs apps séparées (todo list, habit tracker, notion...), l'idée était de construire quelque chose de léger, rapide et adapté à mon usage quotidien. Le projet a été l'occasion de travailler avec un stack moderne (React, TypeScript, Vite, Zustand, Supabase) de bout en bout : modélisation des données, logique métier, interface, statistiques, authentification et déploiement.
-
----
-
-## Accès et utilisation
-
-🌐 **L'app est disponible ici : [goals-tracker.vercel.app](https://goals-tracker.vercel.app)**
-
-Elle est installable sur smartphone en tant que PWA :
-- **Android** — ouvre le lien dans Chrome, puis "Ajouter à l'écran d'accueil"
-- **iPhone** — ouvre le lien dans Safari, appuie sur ⎙ puis "Sur l'écran d'accueil"
-
-### Créer un compte
-
-Rends-toi sur l'app, entre ton email et un mot de passe, puis clique sur **Créer le compte**. Tes données sont liées à ton compte et synchronisées sur tous tes appareils.
-
-### Onglet Aujourd'hui
-
-L'onglet principal regroupe les **tâches du jour** et les **habitudes**. Coche une tâche pour la marquer comme faite — elle disparaîtra automatiquement le lendemain. Pour les habitudes, cocher chaque jour incrémente ton streak 🔥. Passe la souris sur un élément (ou appuie longtemps sur mobile) pour afficher les boutons de modification et de suppression.
-
-### Onglet Objectifs
-
-Crée tes objectifs long terme et décompose-les en **étapes (milestones)**. La barre de progression se met à jour automatiquement à chaque étape cochée. Tu peux définir une date d'échéance et une description pour chaque objectif.
-
-### Onglet Stats
-
-Visualise tes données sur le temps : **heatmap** des habitudes sur 12 semaines, **graphique de complétion** sur 14 jours, tendances des streaks et progression de chaque objectif.
-
-### Onglet Rappels
-
-Active des **notifications quotidiennes** pour tes habitudes en choisissant une heure pour chacune. Les notifications fonctionnent tant que l'onglet est ouvert — ou en permanence si l'app est installée en PWA.
-
----
+Il couvre la chaîne complète : modélisation des données, logique métier, interface,
+statistiques, authentification et déploiement.
 
 ## Fonctionnalités
 
-- **Tâches du jour** — ajout, complétion et suppression de tâches quotidiennes
-- **Habitudes récurrentes** — suivi quotidien, calcul automatique des streaks et meilleur streak
-- **Objectifs long terme** — décomposition en milestones, barre de progression automatique
-- **Édition** — modification du titre, description, échéance et fréquence de chaque élément
-- **Statistiques** — heatmap sur 12 semaines, graphiques de complétion sur 14 jours, tendances
-- **Rappels** — notifications web programmables par habitude avec heure personnalisée
-- **Authentification** — inscription et connexion par email via Supabase Auth
-- **Sync cloud** — données synchronisées en temps réel entre appareils
-- **PWA** — installable sur Android et iOS (via Safari)
+| | |
+| --- | --- |
+| **Tâches du jour** | Ajout, complétion et suppression. Une tâche cochée disparaît le lendemain. |
+| **Habitudes** | Fréquence quotidienne, hebdomadaire ou mensuelle, avec streak en cours et meilleur streak. |
+| **Objectifs** | Découpage en étapes, échéance, description et barre de progression automatique. |
+| **Statistiques** | Complétion des 14 derniers jours, historique par habitude (14 jours, 12 semaines ou 12 mois), progression des objectifs. |
+| **Rappels** | Notification web à l'heure choisie pour chaque habitude. |
+| **Compte** | Inscription par email, données synchronisées entre appareils via Supabase. |
 
----
+## Utilisation
+
+Crée un compte avec ton email et un mot de passe : tes données te suivent sur tous tes appareils.
+
+- **Aujourd'hui** : coche tes tâches et tes habitudes. Survole un élément (appui long sur
+  mobile) pour le modifier ou le supprimer.
+- **Objectifs** : crée un objectif, ajoute ses étapes, la progression se calcule seule.
+- **Stats** : suis la régularité de chaque habitude et l'avancement de tes objectifs.
+- **Rappels** : choisis une heure par habitude. Les notifications partent tant que l'onglet
+  reste ouvert.
+
+Sur smartphone, l'app s'ajoute à l'écran d'accueil depuis le navigateur (Chrome : *Ajouter à
+l'écran d'accueil*, Safari : *Partager* puis *Sur l'écran d'accueil*).
+
+## Lancer le projet en local
+
+Prérequis : Node.js 20 ou plus et un projet [Supabase](https://supabase.com).
+
+```bash
+git clone git@github.com:anatolesns/Goals-Tracker.git
+cd Goals-Tracker
+npm install
+```
+
+Crée un fichier `.env.local` à la racine :
+
+```env
+VITE_SUPABASE_URL=https://<projet>.supabase.co
+VITE_SUPABASE_ANON_KEY=<clé anon>
+```
+
+Puis :
+
+```bash
+npm run dev
+```
+
+| Script | Rôle |
+| --- | --- |
+| `npm run dev` | Serveur de développement |
+| `npm run build` | Vérification TypeScript et build de production |
+| `npm run preview` | Aperçu du build |
+| `npm run lint` | ESLint |
 
 ## Stack technique
 
-| Couche | Technologie |
-|--------|-------------|
-| Framework | React 18 + TypeScript |
+| Couche | Outil |
+| --- | --- |
+| Interface | React 19, TypeScript, Tailwind CSS 4 |
 | Build | Vite 8 |
-| Style | Tailwind CSS 4 |
-| State | Zustand (avec persist middleware) |
-| Base de données | Supabase (PostgreSQL) |
-| Authentification | Supabase Auth |
+| État | Zustand avec persistance locale |
+| Données et authentification | Supabase (PostgreSQL, Auth) |
 | Graphiques | Recharts |
 | Dates | date-fns |
-| Déploiement | Vercel |
-
----
+| Hébergement | Vercel |
 
 ## Structure du projet
 
-```sh
-└── goals-tracker/
-    ├── public/
-    │   ├── pwa-192x192.png        # Icône PWA
-    │   ├── pwa-512x512.png        # Icône PWA grande
-    │   └── sw-notifications.js    # Service Worker notifications
-    └── src/
-        ├── components/
-        │   ├── AddItemModal.tsx    # Modal d'ajout (objectif / habitude / tâche)
-        │   ├── EditModal.tsx       # Modal d'édition
-        │   ├── DailyView.tsx       # Vue tâches et habitudes du jour
-        │   ├── GoalsView.tsx       # Vue objectifs long terme
-        │   ├── StatsView.tsx       # Vue statistiques et graphiques
-        │   ├── NotificationsView.tsx # Vue rappels
-        │   └── AuthScreen.tsx      # Écran de connexion / inscription
-        ├── hooks/
-        │   └── useSync.ts          # Synchronisation Supabase ↔ Zustand
-        ├── lib/
-        │   └── supabase.ts         # Client Supabase
-        ├── store/
-        │   └── useAppStore.ts      # Store Zustand (goals, habits, dailyTasks)
-        ├── types/
-        │   └── index.ts            # Interfaces TypeScript (Goal, Habit, DailyTask...)
-        ├── utils/
-        │   ├── goalUtils.ts        # Calcul progression, streaks, ID
-        │   └── notifications.ts    # Gestion notifications et Service Worker
-        ├── theme.ts                # Thèmes par onglet
-        └── App.tsx                 # Composant racine + gestion session
+```text
+src/
+├── components/
+│   ├── AuthScreen.tsx         # Connexion et inscription
+│   ├── DailyView.tsx          # Onglet Aujourd'hui
+│   ├── GoalsView.tsx          # Onglet Objectifs
+│   ├── StatsView.tsx          # Onglet Stats
+│   ├── NotificationsView.tsx  # Onglet Rappels
+│   ├── AddItemModal.tsx       # Ajout d'une tâche, habitude ou objectif
+│   └── EditModal.tsx          # Modification d'un élément
+├── hooks/useSync.ts           # Synchronisation Supabase et store
+├── lib/supabase.ts            # Client Supabase
+├── store/UseAppStore.ts       # Store Zustand
+├── types/index.ts             # Types métier (Goal, Habit, DailyTask...)
+├── utils/
+│   ├── global.ts              # Progression, streaks, identifiants
+│   └── notifications.ts       # Permission et planification des rappels
+├── theme.ts                   # Couleurs par onglet
+└── App.tsx                    # Racine et gestion de session
 ```
-
----
 
 ## Roadmap
 
-- [x] Modélisation TypeScript des données
-- [x] Persistance locale (Zustand + localStorage)
-- [x] Interface complète (tâches, habitudes, objectifs)
-- [x] Statistiques et graphiques (Recharts)
-- [x] Notifications web et rappels quotidiens
-- [x] Authentification Supabase
-- [x] Synchronisation cloud multi-appareils
-- [x] Déploiement Vercel
-- [x] PWA installable (Android + iOS)
-- [ ] Export / import JSON des données
+- [x] Tâches, habitudes et objectifs
+- [x] Statistiques et graphiques
+- [x] Rappels par notification web
+- [x] Authentification et synchronisation Supabase
+- [x] Déploiement sur Vercel
+- [ ] PWA complète (manifeste, service worker, rappels en arrière-plan)
+- [ ] Export et import des données en JSON
 - [ ] Vue semaine des habitudes
 - [ ] Mode sombre
 - [ ] Partage d'objectifs entre utilisateurs
 
-<div align="right">
-
-[![][back-to-top]](#top)
-
-</div>
-
-[back-to-top]: https://img.shields.io/badge/-RETOUR_EN_HAUT-151515?style=flat-square
+<div align="right"><a href="#top">Retour en haut</a></div>
