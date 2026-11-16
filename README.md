@@ -4,7 +4,7 @@
 
 Suivi des tâches du jour, des habitudes et des objectifs long terme, dans une seule interface.
 
-[![Ouvrir l'app](https://img.shields.io/badge/Ouvrir_l'app-goals--tracker--anatolesns.vercel.app-8b5cf6?style=for-the-badge)](https://tracker.anatoledebus.com)
+[![Ouvrir l'app](https://img.shields.io/badge/Ouvrir_l'app-tracker--anatoledebus.com-8b5cf6?style=for-the-badge)](https://tracker.anatoledebus.com)
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
